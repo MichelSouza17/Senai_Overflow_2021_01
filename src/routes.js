@@ -1,7 +1,7 @@
 const express = require("express");
-const Multer = require("multer");
 
 const authMiddleware = require("./middleware/authorization");
+const uploadQuestions = require("./middleware/uploadQuestions");
 
 const studentController = require("./controllers/students");
 const questionController = require("./controllers/questions");
@@ -15,23 +15,22 @@ const answerValidators = require("./validators/answers");
 
 const routes = express.Router();
 
-const multer = Multer({
-    storage: Multer.diskStorage({
-        destination: "uploads/",
-        filename: (req, file, callback) => {
-            const filename = Date.now() + "." + file.originalname.split(".").pop();
+// const upload = multer.single("arquivo");
 
-            return callback(null, filename);
+// routes.post("/upload", (req, res) => {
 
-        }
-    })
-});
+//     const handleError = (error) => {
+//         if (error) {
+//             res.status(400).send({ error: "Arquivo Inválido" });
+//         }
 
-routes.post("/upload", multer.single("arquivo"), (req, res) => {
-    console.log(req.file);
+//         console.log(req.file);
 
-    res.send(req.file);
-});
+//         res.send(req.file);
+//     }
+
+//     upload(req, res, handleError);
+// });
 
 //Rotas públicas
 routes.post("/sessions", sessionController.store);
@@ -39,7 +38,6 @@ routes.post("/sessions", sessionController.store);
 routes.post("/students", studentValidators.create, studentController.store);
 
 routes.use(authMiddleware);
-
 
 //Rotas de Alunos
 routes.get("/students", studentController.index);
@@ -51,21 +49,27 @@ routes.delete("/students/:id", studentController.delete);
 routes.put("/students/:id", studentController.update);
 
 //Rotas de Perguntas
-routes.post("/questions", questionValidators.create, questionController.store);
+routes.post(
+  "/questions",
+  uploadQuestions,
+  questionValidators.create,
+  questionController.store
+);
 
 routes.put("/questions/:id", questionController.update);
 
 routes.delete("/questions/:id", questionController.delete);
 
-module.exports = routes;
-
 //Rotas de Respostas
 
-routes.post("/questions/:id/answers", answerValidators.create, answersController.store);
+routes.post(
+  "/questions/:id/answers",
+  answerValidators.create,
+  answersController.store
+);
 
 //Rotas do feed
 
 routes.get("/feed", feedController.index);
 
 module.exports = routes;
-
