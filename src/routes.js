@@ -2,7 +2,7 @@ const express = require("express");
 
 const authMiddleware = require("./middleware/authorization");
 const uploadQuestions = require("./middleware/uploadQuestions");
-const uploadImage = require("./middleware/uploadImage");
+const uploadFirebase = require("./services/uploadFirebase");
 
 const studentController = require("./controllers/students");
 const questionController = require("./controllers/questions");
@@ -53,7 +53,7 @@ routes.put("/students/:id", studentController.update);
 routes.post(
   "/questions",
   uploadQuestions,
-  uploadImage,
+  uploadFirebase,
   questionValidators.create,
   questionController.store
 );

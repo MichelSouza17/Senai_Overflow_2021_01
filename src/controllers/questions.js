@@ -10,7 +10,7 @@ module.exports = {
 
         const {firebaseUrl} = req.file ? req.file : "";
 
-        const { title, description, image, gist, categories } = req.body;
+        const { title, description, gist, categories } = req.body;
 
         const categoriesArray = categories.split(",")
 
@@ -25,7 +25,7 @@ module.exports = {
                 return res.status(404).send({ error: "Aluno não encontrado" });
 
             //crio a pergunta para o aluno
-            let question = await student.createQuestion({ title, description, gist });
+            let question = await student.createQuestion({ title, description, image:firebaseUrl, gist });
 
             await question.addCategories(categoriesArray);
 

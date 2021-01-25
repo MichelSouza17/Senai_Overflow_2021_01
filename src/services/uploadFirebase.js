@@ -1,6 +1,6 @@
-var admin = require("firebase-admin");
+const admin = require("firebase-admin");
 
-var serviceAccount = require("../config/firebase-key.json");
+const serviceAccount = require("../config/firebase-key.json");
 
 const BUCKET = "senai-overflow-2021-01-9e264.appspot.com";
 
@@ -11,7 +11,7 @@ admin.initializeApp({
 
 const bucket = admin.storage().bucket();
 
-const uploadImage = (req, res, next) => {
+const uploadFirebase = (req, res, next) => {
     if(!req.file) return next();
 
     const image = req.file;
@@ -26,8 +26,10 @@ const uploadImage = (req, res, next) => {
         },
     });
 
-    stream.on("error", ()=> {
-        console.error(e);
+    stream.on("error", (error) => {
+        console.error(error);
+
+        res.status(500).send({ error: "Erro ao subir para o Firebase" });
     });
 
     stream.on("finish", () => {
@@ -43,4 +45,4 @@ const uploadImage = (req, res, next) => {
     stream.end(image.buffer)
 };
 
-module.exports = uploadImage;
+module.exports = uploadFirebase;
