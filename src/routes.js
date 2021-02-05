@@ -9,6 +9,7 @@ const questionController = require("./controllers/questions");
 const answersController = require("./controllers/answer");
 const feedController = require("./controllers/feed");
 const sessionController = require("./controllers/sessions");
+const categoriesController = require("./controllers/categories");
 
 const studentValidators = require("./validators/students");
 const questionValidators = require("./validators/questions");
@@ -73,5 +74,9 @@ routes.post(
 //Rotas do feed
 
 routes.get("/feed", feedController.index);
+
+//Rotas de Categorias
+
+routes.get("/categories", categoriesController.index);
 
 module.exports = routes;
