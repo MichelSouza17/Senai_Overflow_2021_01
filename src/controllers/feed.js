@@ -11,6 +11,7 @@ module.exports = {
           "image",
           "gist",
           "created_at",
+          "StudentId",
         ],
         include: [
           {
@@ -32,6 +33,7 @@ module.exports = {
           },
         ],
         order: [["created_at", "DESC"]],
+        limit: 5,
       });
 
       res.send(feed);
