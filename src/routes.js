@@ -59,6 +59,7 @@ routes.post(
 );
 
 //Rotas de Perguntas
+routes.get("/questions", questionValidators.index, questionController.index);
 routes.post(
   "/questions",
   uploadSingleImage,
