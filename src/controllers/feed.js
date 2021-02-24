@@ -4,6 +4,7 @@ const Question = require("../models/Question");
 module.exports = {
   async index(req, res) {
     const { page } = req.query;
+
     try {
       const totalQuestion = await Question.count();
 

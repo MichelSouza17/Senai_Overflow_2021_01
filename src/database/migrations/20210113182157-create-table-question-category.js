@@ -1,36 +1,27 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    queryInterface.createTable("answers", {
-      id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      description: {
-        type: Sequelize.TEXT,
-        allowNull: false
-      },
+    queryInterface.createTable("question_category", {
       question_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: "questions",
-          key: "id"
+          key: "id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
       },
-      student_id: {
+      category_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "students",
-          key: "id"
+          model: "categories",
+          key: "id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
       },
       created_at: {
         type: Sequelize.DATE,
@@ -39,11 +30,11 @@ module.exports = {
       updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
-      }
-    })
+      },
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
-    queryInterface.dropTable("answers");
-  }
+    queryInterface.dropTable("question_category");
+  },
 };

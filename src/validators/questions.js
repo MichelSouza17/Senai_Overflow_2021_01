@@ -1,4 +1,4 @@
-const { celebrate, Segments, Joi } = require("celebrate");
+const { Segments, Joi, celebrate } = require("celebrate");
 
 module.exports = {
   index: celebrate({
